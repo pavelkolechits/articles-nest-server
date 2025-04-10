@@ -6,6 +6,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/users.model';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from "bcryptjs";
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -42,12 +43,11 @@ export class AuthService {
         if(!user) {
             throw new UnauthorizedException({ message: 'Неверный email' })
         }
-        const passwordEquals = await bcrypt.compare(dto.password, user?.dataValues.password || '')
+        const passwordEquals = await bcrypt.compare(dto.password, user?.dataValues.password)
 
         if (passwordEquals) {
             return user
         }
-
         throw new UnauthorizedException({ message: 'Неверный пароль' })
     }
 }

@@ -1,13 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Req } from '@nestjs/common';
 import { User } from './users.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RolesService } from 'src/roles/roles.service';
+import { AuthService } from 'src/auth/auth.service';
+import { Request } from 'express';
 
 @Injectable()
 export class UsersService {
 
-    constructor(@InjectModel(User) private userRepository: typeof User, private roleService: RolesService) {
+    constructor(
+        @InjectModel(User)
+        private userRepository: typeof User,
+        private roleService: RolesService,
+    ) {
 
     }
     async createUser(dto: CreateUserDto) {
@@ -33,7 +39,6 @@ export class UsersService {
     }
     async getUserByEmail(email: string) {
         const user = await this.userRepository.findOne({ where: { email }, include: { all: true } })
-        console.log(user,"getUserByEmail")
         return user
     }
 }

@@ -14,8 +14,8 @@ import { AuthModule } from 'src/auth/auth.module';
   imports: [
     SequelizeModule.forFeature([User, Role, UserRoles]),
     RolesModule,
-    AuthModule
+    forwardRef(() => AuthModule)
   ],
-exports: [UsersService]
+  exports: [UsersService]
 })
 export class UsersModule { }
