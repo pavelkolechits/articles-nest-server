@@ -7,8 +7,8 @@ import { User } from 'src/users/users.model';
 import { FilesModule } from 'src/files/files.module';
 
 @Module({
-  providers: [PostsService],
   controllers: [PostsController],
+  providers: [PostsService],
   imports: [
     SequelizeModule.forFeature([User, Post]),
     FilesModule

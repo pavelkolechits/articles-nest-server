@@ -5,6 +5,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { RolesService } from 'src/roles/roles.service';
 import { AuthService } from 'src/auth/auth.service';
 import { Request } from 'express';
+import { ProfilesService } from 'src/profiles/profiles.service';
+import { CreatePostDto } from 'src/posts/dto/create-post.dto';
 
 @Injectable()
 export class UsersService {
@@ -13,12 +15,16 @@ export class UsersService {
         @InjectModel(User)
         private userRepository: typeof User,
         private roleService: RolesService,
+        private profilesService: ProfilesService
     ) {
 
     }
-    async createUser(dto: CreateUserDto) {
-        const user = await this.userRepository.create(dto)
+    async createUser(userDto: CreateUserDto
+
+    ) {
+        const user = await this.userRepository.create(userDto)
         const role = await this.roleService.getRoleByValue("USER")
+        await this.profilesService.createProfile({ email: user.dataValues.email, userId: user.dataValues.id })
 
         if (!role) {
             throw new Error('role not found')
