@@ -14,10 +14,13 @@ export class ProfilesService {
         const profile = await this.pofileRepository.create({ email, userId })
         return profile;
     }
-    async getProfile() {
-
+    async getProfile(userId: number) {
+        const profile = await this.pofileRepository.findOne({ where: { userId } })
+        return profile
     }
-    async updateProfile() {
-
+    async updateProfile(profileDto: CreateProfileDto, id: number, image: any) {
+         const fileName = await this.fileService.createFile(image);
+        const profile = await this.pofileRepository.update({...profileDto, avatar: fileName}, { where: { userId: id }, returning: true })
+        return profile[1][0]
     }
 }
