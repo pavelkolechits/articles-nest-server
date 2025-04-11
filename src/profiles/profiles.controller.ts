@@ -5,19 +5,19 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@Controller('profile/:id')
+@Controller('profile')
 export class ProfilesController {
     constructor(private profilesService: ProfilesService) { }
 
 
     @UseGuards(JwtAuthGuard)
-    @Get()
+    @Get('/:id')
     getProfile(@Param('id') id: number) {
         return this.profilesService.getProfile(id)
     }
     
     @UseGuards(JwtAuthGuard)
-    @Put()
+    @Put('/:id')
     @UseInterceptors(FileInterceptor('image'))
     updateProfile(
         @Body() profileDto: CreateProfileDto,

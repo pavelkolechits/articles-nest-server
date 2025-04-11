@@ -16,4 +16,9 @@ export class RolesController {
     getRoleByValue(@Param('value') value: string) {
         return this.roleService.getRoleByValue(value)
     }
+
+    @Get('/:id')
+    getUserRoles(@Param('id') id: number) {
+        return this.roleService.getUserRoles(id)
+    }
 }

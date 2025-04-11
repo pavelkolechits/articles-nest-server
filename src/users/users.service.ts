@@ -29,8 +29,8 @@ export class UsersService {
         if (!role) {
             throw new Error('role not found')
         }
-        await user.$set('roles', [role?.id])
-        user.roles = [role]
+        await user.$set('roles', [role.id]);
+        user.roles = [role];
         return user
     }
 

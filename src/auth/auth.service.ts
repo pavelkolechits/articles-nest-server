@@ -1,20 +1,24 @@
 import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtModule, JwtService } from '@nestjs/jwt';
-import { InjectModel } from '@nestjs/sequelize';
-import { CreateRoleDto } from 'src/roles/create-role.dto.ts/create-role.dto';
+import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { User } from 'src/users/users.model';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from "bcryptjs";
-import { Request } from 'express';
+import { RolesService } from 'src/roles/roles.service';
+import { CreateTokenDto } from './dto/create-token.dto';
 
 @Injectable()
 export class AuthService {
-    constructor(private usersService: UsersService, private JwtService: JwtService) { }
+    constructor(
+        private usersService: UsersService,
+        private rolesService: RolesService,
+        private JwtService: JwtService) { }
 
     async login(dto: CreateUserDto) {
         const user = await this.validateUser(dto)
-        return this.generateToken(user)
+        const roles = await this.rolesService.getUserRoles(user.dataValues.id)
+        const payload = { email: user.dataValues.email, id: user.dataValues.id, roles}
+        const token = await this.generateToken(user)
+        return { token, user: payload }
 
     }
     async registration(dto: CreateUserDto) {
@@ -26,21 +30,23 @@ export class AuthService {
 
         const hashPassword = await bcrypt.hash(dto.password, 5)
         const user = await this.usersService.createUser({ ...dto, password: hashPassword })
-        return this.generateToken(user)
+        const userRoles = await this.rolesService.getUserRoles(user.dataValues.id)
+        const payload = { email: user.dataValues.email, id: user.dataValues.id, roles: userRoles }
+
+        const token = await this.generateToken(payload)
+
+        return { token, user: payload }
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
-    private async generateToken(user: User) {
-        
-        const payload = { email: user.dataValues.email, id: user.dataValues.id, roles: user.dataValues.roles }
-        return {
-            token: this.JwtService.sign(payload)
-        }
+    private async generateToken(payload: CreateTokenDto) {
+        return this.JwtService.sign(payload)
+
     }
 
     private async validateUser(dto: CreateUserDto) {
         const user = await this.usersService.getUserByEmail(dto.email)
-        if(!user) {
+        if (!user) {
             throw new UnauthorizedException({ message: 'Неверный email' })
         }
         const passwordEquals = await bcrypt.compare(dto.password, user?.dataValues.password)
