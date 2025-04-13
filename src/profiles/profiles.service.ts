@@ -14,13 +14,20 @@ export class ProfilesService {
         const profile = await this.pofileRepository.create({ email, userId })
         return profile;
     }
+
     async getProfile(userId: number) {
         const profile = await this.pofileRepository.findOne({ where: { userId } })
         return profile
     }
-    async updateProfile(profileDto: CreateProfileDto, id: number, image: any) {
-         const fileName = await this.fileService.createFile(image);
-        const profile = await this.pofileRepository.update({...profileDto, avatar: fileName}, { where: { userId: id }, returning: true })
+
+    async updateProfile(profileDto: CreateProfileDto, id: number) {
+        const profile = await this.pofileRepository.update({...profileDto}, { where: { userId: id }, returning: true })
         return profile[1][0]
     }
+
+    async updateAvatar(id: number, image: any) {
+        const fileName = await this.fileService.createFile(image);
+       const avatar = await this.pofileRepository.update({avatar: fileName}, { where: { userId: id },  returning: true })
+       return avatar[1][0].dataValues.avatar
+   }
 }

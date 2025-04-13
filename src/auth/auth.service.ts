@@ -4,7 +4,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from "bcryptjs";
 import { RolesService } from 'src/roles/roles.service';
-import { CreateTokenDto } from './dto/create-token.dto';
+import { User } from 'src/users/users.model';
 
 @Injectable()
 export class AuthService {
@@ -14,9 +14,9 @@ export class AuthService {
         private JwtService: JwtService) { }
 
     async login(dto: CreateUserDto) {
-        const user = await this.validateUser(dto)
-        const roles = await this.rolesService.getUserRoles(user.dataValues.id)
-        const payload = { email: user.dataValues.email, id: user.dataValues.id, roles}
+        const user = (await this.validateUser(dto))
+        const userRoles = await this.rolesService.getUserRoles(user.id)
+        const payload = { email: user.dataValues.email, id: user.dataValues.id, roles: userRoles }
         const token = await this.generateToken(user)
         return { token, user: payload }
 
@@ -29,17 +29,17 @@ export class AuthService {
         }
 
         const hashPassword = await bcrypt.hash(dto.password, 5)
-        const user = await this.usersService.createUser({ ...dto, password: hashPassword })
-        const userRoles = await this.rolesService.getUserRoles(user.dataValues.id)
+        const user = (await this.usersService.createUser({ ...dto, password: hashPassword }))
+        const userRoles = await this.rolesService.getUserRoles(user.id)
         const payload = { email: user.dataValues.email, id: user.dataValues.id, roles: userRoles }
-
-        const token = await this.generateToken(payload)
+        const token = await this.generateToken(user)
 
         return { token, user: payload }
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
-    private async generateToken(payload: CreateTokenDto) {
+    private async generateToken(user: User) {
+        const payload = {email: user.dataValues.email, id: user.dataValues.id}
         return this.JwtService.sign(payload)
 
     }

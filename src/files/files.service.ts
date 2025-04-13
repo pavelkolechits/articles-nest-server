@@ -11,6 +11,7 @@ import * as uuid from 'uuid';
 export class FilesService {
 
     async createFile(file): Promise<string> {
+    console.log(file)
         try {uuid.v4()
             const fileName = uuid.v4() + '.jpg';
             const filePath = path.resolve(__dirname, '..', 'static')
@@ -20,6 +21,7 @@ export class FilesService {
             fs.writeFileSync(path.join(filePath, fileName), file.buffer)
             return fileName;
         } catch (e) {
+        console.log(e)
             throw new HttpException('Произошла ошибка при записи файла', HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
