@@ -16,22 +16,15 @@ export class ProfilesController {
         return this.profilesService.getProfile(id)
     }
     
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Put('/:id')
+    @UseInterceptors(FileInterceptor('image'))
     updateProfile(
         @Body() profileDto: CreateProfileDto,
         @Param('id') id: number,
-    ) {
-        return this.profilesService.updateProfile(profileDto, id)
-    }
-
-    // @UseGuards(JwtAuthGuard)
-    @Put('/:id/image')
-    @UseInterceptors(FileInterceptor('image'))
-    updateAvatar(
-        @Param('id') id: number,
         @UploadedFile() image
     ) {
-        return this.profilesService.updateAvatar( id, image)
+        return this.profilesService.updateProfile(profileDto, id, image)
     }
+
 }
