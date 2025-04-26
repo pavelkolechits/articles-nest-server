@@ -12,6 +12,7 @@ import { Post } from './posts/posts.model';
 import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ProfilesModule } from './profiles/profiles.module';
+import { ArticleDraftsModule } from './articles-draft/articles-draft.module';
 import * as path from 'path';
 
 
@@ -44,6 +45,8 @@ import * as path from 'path';
         PostsModule,
         FilesModule,
         ProfilesModule,
+        ArticleDraftsModule,
+
     ],
 })
 export class AppModule { }
