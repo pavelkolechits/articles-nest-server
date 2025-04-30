@@ -12,8 +12,11 @@ import { Post } from './posts/posts.model';
 import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ProfilesModule } from './profiles/profiles.module';
-import { ArticleDraftsModule } from './articles-draft/articles-draft.module';
+import { ArticleDraftHeaderModule } from './articles-draft/articles-draft-header/article-draft-header.module';
 import * as path from 'path';
+import { ArticleDraftTextModule } from './articles-draft/article-draft-text/article-draft-text.module';
+import { ArticleDraftImgModule } from './articles-draft/article-draft-img/article-draft-img.module';
+import { ArticleDraftCodeModule } from './articles-draft/article-draft-code/article-draft-code.module';
 
 
 
@@ -45,7 +48,10 @@ import * as path from 'path';
         PostsModule,
         FilesModule,
         ProfilesModule,
-        ArticleDraftsModule,
+        ArticleDraftHeaderModule,
+        ArticleDraftTextModule,
+        ArticleDraftImgModule,
+        ArticleDraftCodeModule
 
     ],
 })

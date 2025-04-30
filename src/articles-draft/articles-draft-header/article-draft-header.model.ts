@@ -3,7 +3,7 @@ import { User } from "src/users/users.model";
 
 
 
-interface ArticleDraftCreationAttrs {
+interface ArticleDraftHeaderCreationAttrs {
     title: string;
     subtitle: string;
     userId: number;
@@ -11,8 +11,8 @@ interface ArticleDraftCreationAttrs {
 }
 
 
-@Table({ tableName: 'article-drafts' , createdAt: false, updatedAt: false})
-export class ArticleDraft extends Model<ArticleDraft, ArticleDraftCreationAttrs> {
+@Table({ tableName: 'article-draft-header' , createdAt: false, updatedAt: false})
+export class ArticleDraftHeader extends Model<ArticleDraftHeader, ArticleDraftHeaderCreationAttrs> {
     @Column({ type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true })
     declare id: number;
 
