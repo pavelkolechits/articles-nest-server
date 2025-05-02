@@ -17,10 +17,36 @@ export class ArticleCodeService {
         const codeBlock = await this.articleCodeRepository.create(dto)
         return codeBlock
     }
+      async updateArticleCode(dto: CreateArticleCodeDto) {
+           const codeBlock = await this.articleCodeRepository.update(
+                {code: dto.code},
+                { where: { blockId: dto.blockId, articleId: dto.articleId }, returning: true })
+
+                const block = codeBlock[1][0].dataValues
+
+                const payload = {
+                    id: block.blockId,
+                    code: block.code,
+                    type: 'CODE'
+                }
+    
+            return payload
+        }
 
     async getArticleCode(articleId: number) {
-        const codeBlock = await this.articleCodeRepository.findAll({ where: { articleId }})
-        return codeBlock
+        const codeBlocks = await this.articleCodeRepository.findAll({ 
+            where: { articleId },
+            attributes: [ 'blockId', 'code']
+        })
+
+        const payload = codeBlocks.map((block) => {
+            return {
+                id: block.dataValues.blockId,
+                type: 'CODE',
+                code: block.dataValues.code
+            }
+        })
+        return payload
     }
 
 }

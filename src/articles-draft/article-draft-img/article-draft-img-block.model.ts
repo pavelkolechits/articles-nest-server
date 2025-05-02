@@ -6,6 +6,7 @@ interface ArticleDraftImgCreationAttrs {
     title?: string;
     image: string;
     articleId: number;
+    type: string
 }
 
 

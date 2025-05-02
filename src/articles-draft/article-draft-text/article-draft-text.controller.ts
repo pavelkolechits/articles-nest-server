@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Put } from '@nestjs/common';
 import { ArticleTextService } from './article-draft-text.service';
 import { CreateArticleTextDto } from './dto/create-article-text.dto';
 
@@ -12,9 +12,15 @@ export class ArticleTextController {
     @Post()
     createArticleTextBlock(
         @Body() articleTextDto: CreateArticleTextDto,
-
     ) {
         return this.articleTextService.createArticleText(articleTextDto)
+    }
+
+    @Put()
+    updateArticleText(
+        @Body() articleTextDto: CreateArticleTextDto,
+    ) {
+        return this.articleTextService.updateArticleText(articleTextDto)
     }
 
 }

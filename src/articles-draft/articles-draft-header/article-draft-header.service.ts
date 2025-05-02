@@ -7,6 +7,7 @@ import { ArticleTextService } from '../article-draft-text/article-draft-text.ser
 import { ArticleImgService } from '../article-draft-img/article-draft-img.service';
 import { ArticleCodeService } from '../article-draft-code/article-draft-code.service';
 
+
 @Injectable()
 export class ArticleDraftHeaderService {
     constructor(
@@ -60,11 +61,19 @@ export class ArticleDraftHeaderService {
         const articleTextBlocks = await this.articleTextService.getArticleText(header?.dataValues.id) || []
         const articleImgBlocks = await this.articleImgService.getArticleImg(header?.dataValues.id) || []
         const articleCodeBlocks = await this.articleCodeService.getArticleCode(header?.dataValues.id) || []
-        const blocks = [...articleCodeBlocks, ...articleImgBlocks, ...articleTextBlocks]
+        const blocks = [...articleCodeBlocks, ...articleImgBlocks, ...articleTextBlocks].sort((a,b) => a.id - b.id)
+
+       
+        const articleData = {
+            image: process.env.URL + header.dataValues.image,
+            id: header.dataValues.id,
+            title: header.dataValues.title,
+            subtitle: header.dataValues.subtitle
+        }
 
         return {
-            blocks,
-            header
+            ...articleData,
+            blocks
         }
     }
 

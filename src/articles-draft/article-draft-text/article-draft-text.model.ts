@@ -20,9 +20,6 @@ export class ArticleDraftText extends Model<ArticleDraftText, ArticleDraftTextCr
     @Column({ type: DataType.TEXT })
     text: string;
 
-    @Column({ type: DataType.STRING })
-    type: string;
-
     @ForeignKey(() => ArticleDraftHeader)
     @Column({ type: DataType.INTEGER })
     articleId: number;
