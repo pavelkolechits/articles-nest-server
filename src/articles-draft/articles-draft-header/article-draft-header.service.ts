@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ArticleDraftHeader } from './article-draft-header.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { FilesService } from 'src/files/files.service';
@@ -16,11 +16,15 @@ export class ArticleDraftHeaderService {
         private articleTextService: ArticleTextService,
         private articleImgService: ArticleImgService,
         private articleCodeService: ArticleCodeService,
-
-
         private fileService: FilesService) { }
 
     async createArticleHeader(dto: CreateArticleHeaderDto, image: any) {
+
+        const article = await this.articleDraftHeaderRepository.findOne({ where: { userId: dto.userId } })
+
+        if (article) {
+            throw new HttpException('draft has been created, use update', HttpStatus.BAD_REQUEST)
+        }
 
         const fileName = await this.fileService.createFile(image);
 
@@ -61,9 +65,9 @@ export class ArticleDraftHeaderService {
         const articleTextBlocks = await this.articleTextService.getArticleText(header?.dataValues.id) || []
         const articleImgBlocks = await this.articleImgService.getArticleImg(header?.dataValues.id) || []
         const articleCodeBlocks = await this.articleCodeService.getArticleCode(header?.dataValues.id) || []
-        const blocks = [...articleCodeBlocks, ...articleImgBlocks, ...articleTextBlocks].sort((a,b) => a.id - b.id)
+        const blocks = [...articleCodeBlocks, ...articleImgBlocks, ...articleTextBlocks].sort((a, b) => a.id - b.id)
 
-       
+
         const articleData = {
             image: process.env.URL + header.dataValues.image,
             id: header.dataValues.id,
