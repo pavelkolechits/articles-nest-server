@@ -5,7 +5,7 @@ import { CreateArticleTextDto } from './dto/create-article-text.dto';
 
 
 @Injectable()
-export class ArticleTextService {
+export class ArticleDraftTextService {
     constructor(
         @InjectModel(ArticleDraftText)
         private articleTextRepository: typeof ArticleDraftText,
@@ -36,6 +36,15 @@ export class ArticleTextService {
 
         return payload
 
+    }
+
+    async deleteArticleText(data) {
+
+        const { blockId , articleId} = data
+      
+        const result = await this.articleTextRepository.destroy({where: {blockId, articleId}})
+        
+        return result
     }
 
     async getArticleText(articleId: number) {

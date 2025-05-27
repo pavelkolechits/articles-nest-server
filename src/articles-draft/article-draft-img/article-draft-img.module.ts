@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
-import { ArticleImgController } from './article-blocks-draft.controller';
+import { ArticleDraftImgController } from './article-draft-img.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ArticleDraftImg } from './article-draft-img-block.model';
-import { ArticleImgService } from './article-draft-img.service';
+import { ArticleDraftImgService } from './article-draft-img.service';
 import { FilesModule } from 'src/files/files.module';
 
 
 @Module({
-  providers: [ArticleImgService],
-  controllers: [ArticleImgController],
+  providers: [ArticleDraftImgService],
+  controllers: [ArticleDraftImgController],
    imports: [
       SequelizeModule.forFeature([ ArticleDraftImg]),
       FilesModule,
     ],
-    exports:[ArticleImgService]
+    exports:[ArticleDraftImgService]
 })
 export class ArticleDraftImgModule {}

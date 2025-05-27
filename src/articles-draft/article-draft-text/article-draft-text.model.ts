@@ -2,7 +2,7 @@ import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize
 import { ArticleDraftHeader } from "../articles-draft-header/article-draft-header.model";
 
 interface ArticleDraftTextCreationAttrs {
-    blockId: number; 
+    blockId: string; 
     title?: string;
     text: string;
     articleId: number;
@@ -24,8 +24,8 @@ export class ArticleDraftText extends Model<ArticleDraftText, ArticleDraftTextCr
     @Column({ type: DataType.INTEGER })
     articleId: number;
 
-    @Column({ type: DataType.INTEGER })
-    blockId: number;
+    @Column({ type: DataType.STRING })
+    blockId: string;
 
     @BelongsTo(() => ArticleDraftHeader)
     article: ArticleDraftHeader

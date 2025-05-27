@@ -1,12 +1,12 @@
-import { Body, Controller, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ArticleImgService } from './article-draft-img.service';
+import { ArticleDraftImgService } from './article-draft-img.service';
 import { CreateArticleImgDto } from './dto/create-article-img.dto';
 
 
 @Controller('img')
-export class ArticleImgController {
-    constructor(private articleImgService: ArticleImgService) { }
+export class ArticleDraftImgController {
+    constructor(private articleImgService: ArticleDraftImgService) { }
 
 
     @Post()
@@ -26,5 +26,13 @@ export class ArticleImgController {
     ) {
         return this.articleImgService.updateArticleImg(articleImgDto, image)
     }
+
+    @Delete()
+        deleteArticleText(
+            @Body() data: { articleId: number , blockId: string }
+        ) {
+    
+            return this.articleImgService.deleteArticleImg(data)
+        }
 
 }

@@ -2,17 +2,17 @@ import { Module } from '@nestjs/common';
 
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ArticleDraftText } from './article-draft-text.model';
-import { ArticleTextService } from './article-draft-text.service';
-import { ArticleTextController } from './article-draft-text.controller';
+import { ArticleDraftTextService } from './article-draft-text.service';
+import { ArticleDraftTextController } from './article-draft-text.controller';
 
 
 
 @Module({
-  providers: [ArticleTextService],
-  controllers: [ArticleTextController],
+  providers: [ArticleDraftTextService],
+  controllers: [ArticleDraftTextController],
   imports: [
     SequelizeModule.forFeature([ArticleDraftText]),
   ],
-  exports: [ArticleTextService]
+  exports: [ArticleDraftTextService]
 })
 export class ArticleDraftTextModule { }

@@ -1,26 +1,34 @@
-import { Body, Controller, Post, Put } from '@nestjs/common';
-import { ArticleTextService } from './article-draft-text.service';
+import { Body, Controller, Post, Put, Delete, Param } from '@nestjs/common';
+import { ArticleDraftTextService } from './article-draft-text.service';
 import { CreateArticleTextDto } from './dto/create-article-text.dto';
 
 
 
 
 @Controller('text')
-export class ArticleTextController {
-    constructor(private articleTextService: ArticleTextService) { }
+export class ArticleDraftTextController {
+    constructor(private articleDraftTextService: ArticleDraftTextService) { }
 
     @Post()
     createArticleTextBlock(
         @Body() articleTextDto: CreateArticleTextDto,
     ) {
-        return this.articleTextService.createArticleText(articleTextDto)
+        return this.articleDraftTextService.createArticleText(articleTextDto)
     }
 
     @Put()
     updateArticleText(
         @Body() articleTextDto: CreateArticleTextDto,
     ) {
-        return this.articleTextService.updateArticleText(articleTextDto)
+        return this.articleDraftTextService.updateArticleText(articleTextDto)
+    }
+
+    @Delete()
+    deleteArticleText(
+        @Body() data: { articleId: number , blockId: string }
+    ) {
+
+        return this.articleDraftTextService.deleteArticleText(data)
     }
 
 }

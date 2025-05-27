@@ -5,7 +5,7 @@ import { FilesService } from 'src/files/files.service';
 import { CreateArticleImgDto } from './dto/create-article-img.dto';
 
 @Injectable()
-export class ArticleImgService {
+export class ArticleDraftImgService {
     constructor(
         @InjectModel(ArticleDraftImg)
         private articleImgRepository: typeof ArticleDraftImg,
@@ -23,7 +23,25 @@ export class ArticleImgService {
         const imgBlock = await this.articleImgRepository.create({
             ...dto, image: fileName
         })
-        return imgBlock
+
+        const block = imgBlock.dataValues
+
+        const payload = {
+            id: block.blockId,
+            title: block.title,
+            src: block.image,
+            type: 'IMAGE'
+        }
+        return payload
+    }
+
+    async deleteArticleImg(data) {
+
+        const { blockId , articleId} = data
+      
+        const result = await this.articleImgRepository.destroy({where: {blockId, articleId}})
+        
+        return result
     }
 
     async updateArticleImg(dto: CreateArticleImgDto, image: any) {
@@ -39,7 +57,7 @@ export class ArticleImgService {
                 const payload = {
                     id: block.blockId,
                     title: block.title,
-                    image: block.image,
+                    src: block.image,
                     type: 'IMAGE'
                 }
     
@@ -58,7 +76,7 @@ export class ArticleImgService {
                 const payload = {
                     id: block.blockId,
                     title: block.title,
-                    image: block.image,
+                    src: block.image,
                     type: 'IMAGE'
                 }
     
@@ -76,7 +94,7 @@ export class ArticleImgService {
         const payload = imgBlocks.map((block) => {
             return {
                 id: block.dataValues.blockId,
-                image: process.env.URL + block.dataValues.image,
+                src: process.env.URL + block.dataValues.image,
                 title: block.dataValues.title,
                 type: 'IMAGE'
             }

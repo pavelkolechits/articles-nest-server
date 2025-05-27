@@ -17,6 +17,10 @@ import * as path from 'path';
 import { ArticleDraftTextModule } from './articles-draft/article-draft-text/article-draft-text.module';
 import { ArticleDraftImgModule } from './articles-draft/article-draft-img/article-draft-img.module';
 import { ArticleDraftCodeModule } from './articles-draft/article-draft-code/article-draft-code.module';
+import { ArticlesModule } from './articles/articles.module';
+import { ArticleTextModule } from './articles/article-text/article-text.module';
+import { ArticleImgModule } from './articles/article-img/article-img.module';
+import { ArticleCodeModule } from './articles/article-code/article-code.module';
 
 
 
@@ -51,7 +55,11 @@ import { ArticleDraftCodeModule } from './articles-draft/article-draft-code/arti
         ArticleDraftHeaderModule,
         ArticleDraftTextModule,
         ArticleDraftImgModule,
-        ArticleDraftCodeModule
+        ArticleDraftCodeModule,
+        ArticlesModule,
+        ArticleTextModule,
+        ArticleImgModule,
+        ArticleCodeModule
 
     ],
 })

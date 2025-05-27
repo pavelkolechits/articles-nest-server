@@ -1,17 +1,19 @@
 import { Table, Column, DataType, ForeignKey, Model, BelongsTo } from "sequelize-typescript";
 import { ArticleDraftHeader } from "src/articles-draft/articles-draft-header/article-draft-header.model";
+import { Article } from "../articles.model";
 
-interface ArticleDraftImgCreationAttrs {
+interface ArticleImgCreationAttrs {
     blockId: string; 
     title?: string;
-    image: string;
+    src: string;
     articleId: number;
     type: string
 }
 
 
-@Table({ tableName: 'article-draft-img' , createdAt: false, updatedAt: false})
-export class ArticleDraftImg extends Model<ArticleDraftImg, ArticleDraftImgCreationAttrs> {
+
+@Table({ tableName: 'article-img' , createdAt: false, updatedAt: false})
+export class ArticleImg extends Model<ArticleImg, ArticleImgCreationAttrs> {
     @Column({ type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true })
     declare id: number;
 
@@ -19,18 +21,18 @@ export class ArticleDraftImg extends Model<ArticleDraftImg, ArticleDraftImgCreat
     title: string;
 
     @Column({ type: DataType.STRING })
-    image: string;
+    src: string;
 
     @Column({ type: DataType.STRING })
     type: string;
 
-    @ForeignKey(() => ArticleDraftHeader)
+    @ForeignKey(() => Article)
     @Column({ type: DataType.INTEGER })
     articleId: number;
 
     @Column({ type: DataType.STRING })
-    blockId: number;
+    blockId: string;
 
-    @BelongsTo(() => ArticleDraftHeader)
-    article: ArticleDraftHeader
+    @BelongsTo(() => Article)
+    article: Article
 }

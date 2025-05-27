@@ -1,26 +1,34 @@
-import { Body, Controller, Post, Put } from '@nestjs/common';
-import { ArticleCodeService } from './article-draft-code.service';
+import { Body, Controller, Delete, Post, Put } from '@nestjs/common';
+import { ArticleDraftCodeService } from './article-draft-code.service';
 import { CreateArticleCodeDto } from './dto/create-article-code.dto';
 
 
 
 
 @Controller('code')
-export class ArticleCodeController {
-    constructor(private articleCodeService: ArticleCodeService) { }
+export class ArticleDraftCodeController {
+    constructor(private articleDraftCodeService: ArticleDraftCodeService) { }
 
     @Post()
     createArticleCode(
         @Body() articleCodeDto: CreateArticleCodeDto,
     ) {
-        return this.articleCodeService.createArticleCode(articleCodeDto)
+        return this.articleDraftCodeService.createArticleCode(articleCodeDto)
     }
 
     @Put()
     updateArticleCode(
         @Body() articleCodeDto: CreateArticleCodeDto,
     ) {
-        return this.articleCodeService.updateArticleCode(articleCodeDto)
+        return this.articleDraftCodeService.updateArticleCode(articleCodeDto)
+    }
+
+    @Delete()
+    deleteArticleText(
+        @Body() data: { articleId: number, blockId: string }
+    ) {
+
+        return this.articleDraftCodeService.deleteArticleCode(data)
     }
 
 }

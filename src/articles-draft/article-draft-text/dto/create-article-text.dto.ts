@@ -3,5 +3,5 @@ export class CreateArticleTextDto {
     readonly title?: string;
     readonly text: string;
     readonly articleId: number;
-    readonly blockId: number;
+    readonly blockId: string;
 }

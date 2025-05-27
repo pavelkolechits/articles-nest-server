@@ -1,5 +1,8 @@
-import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
 import { User } from "src/users/users.model";
+import { ArticleDraftCode } from "../article-draft-code/article-draft-code.model";
+import { ArticleDraftImg } from "../article-draft-img/article-draft-img-block.model";
+import { ArticleDraftText } from "../article-draft-text/article-draft-text.model";
 
 
 
@@ -29,6 +32,4 @@ export class ArticleDraftHeader extends Model<ArticleDraftHeader, ArticleDraftHe
     @Column({ type: DataType.INTEGER })
     userId: number;
 
-    @BelongsTo(() => User)
-    user: User
 }

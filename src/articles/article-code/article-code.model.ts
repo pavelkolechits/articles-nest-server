@@ -1,7 +1,8 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
-import { ArticleDraftHeader } from "../articles-draft-header/article-draft-header.model";
+import { Article } from "../articles.model";
 
-interface ArticleDraftCodeCreationAttrs {
+
+interface ArticleCodeCreationAttrs {
     blockId: string; 
     title?: string;
     code: string;
@@ -10,8 +11,9 @@ interface ArticleDraftCodeCreationAttrs {
 }
 
 
-@Table({ tableName: 'article-draft-code' , createdAt: false, updatedAt: false})
-export class ArticleDraftCode extends Model<ArticleDraftCode, ArticleDraftCodeCreationAttrs> {
+
+@Table({ tableName: 'article-code' , createdAt: false, updatedAt: false})
+export class ArticleCode extends Model<ArticleCode, ArticleCodeCreationAttrs> {
     @Column({ type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true })
     declare id: number;
 
@@ -21,13 +23,13 @@ export class ArticleDraftCode extends Model<ArticleDraftCode, ArticleDraftCodeCr
     @Column({ type: DataType.STRING })
     type: string;
 
-    @ForeignKey(() => ArticleDraftHeader)
+    @ForeignKey(() => Article)
     @Column({ type: DataType.INTEGER })
     articleId: number;
 
     @Column({ type: DataType.STRING })
     blockId: string;
 
-    @BelongsTo(() => ArticleDraftHeader)
-    article: ArticleDraftHeader
+    @BelongsTo(() => Article)
+    article: Article
 }
