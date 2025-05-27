@@ -1,4 +1,4 @@
-import { Table, Column, DataType, Model, ForeignKey } from "sequelize-typescript";
+import { Table, Column, DataType, Model, ForeignKey, AllowNull } from "sequelize-typescript";
 import { User } from "src/users/users.model";
 
 
@@ -7,9 +7,11 @@ interface ArticleCreationAttrs {
     subtitle: string;
     userId: number;
     image: string;
+    views: number;
+    type: Array<string>
 }
 
-@Table({ tableName: 'articles' , createdAt: false, updatedAt: false})
+@Table({ tableName: 'articles', updatedAt: false})
 export class Article extends Model<Article, ArticleCreationAttrs> {
 
 
@@ -25,8 +27,15 @@ export class Article extends Model<Article, ArticleCreationAttrs> {
     @Column({ type: DataType.STRING })
     image: string;
 
+    @Column({ type: DataType.ARRAY(DataType.STRING) })
+    type: Array<string>;
+
+    @Column({ type: DataType.NUMBER , allowNull: false})
+    views: number
+
     @ForeignKey(() => User)
     @Column({ type: DataType.INTEGER })
     userId: number;
+
 
 }

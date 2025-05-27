@@ -9,7 +9,25 @@ export class ArticleTextService {
 
 
     async createText(dto: ArticleTextDto) {
-        const text = await this.articleTextRepository.create(dto)
+
+        const payload = {blockId: dto.id, text: dto.text, title: dto.title, type: dto.type, articleId: dto.articleId}
+        const text = await this.articleTextRepository.create(payload)
         return text
+    }
+
+    async getText(articleId: number) {
+        const textBlocks = await this.articleTextRepository.findAll({where: {articleId}})
+
+        const resultBlocks = textBlocks.map((block) => {
+            return {
+                id: block.dataValues.blockId,
+                title: block.dataValues.title,
+                type: 'TEXT',
+                text: block.dataValues.text
+            }
+        })
+
+        return resultBlocks
+
     }
 }

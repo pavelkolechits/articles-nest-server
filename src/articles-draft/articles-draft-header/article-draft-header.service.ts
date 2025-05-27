@@ -13,9 +13,9 @@ export class ArticleDraftHeaderService {
     constructor(
         @InjectModel(ArticleDraftHeader)
         private articleDraftHeaderRepository: typeof ArticleDraftHeader,
-        private articleTextService: ArticleDraftTextService,
-        private articleImgService: ArticleDraftImgService,
-        private articleCodeService: ArticleDraftCodeService,
+        private articleDraftTextService: ArticleDraftTextService,
+        private articleDraftImgService: ArticleDraftImgService,
+        private articleDraftCodeService: ArticleDraftCodeService,
         private fileService: FilesService) { }
 
     async createArticleHeader(dto: CreateArticleHeaderDto, image: any) {
@@ -64,9 +64,9 @@ export class ArticleDraftHeaderService {
         if (!header?.dataValues.id) {
             throw new Error('Article not found')
         }
-        const articleTextBlocks = await this.articleTextService.getArticleText(header?.dataValues.id) || []
-        const articleImgBlocks = await this.articleImgService.getArticleImg(header?.dataValues.id) || []
-        const articleCodeBlocks = await this.articleCodeService.getArticleCode(header?.dataValues.id) || []
+        const articleTextBlocks = await this.articleDraftTextService.getArticleText(header?.dataValues.id) || []
+        const articleImgBlocks = await this.articleDraftImgService.getArticleImg(header?.dataValues.id) || []
+        const articleCodeBlocks = await this.articleDraftCodeService.getArticleCode(header?.dataValues.id) || []
         const blocks = [...articleCodeBlocks, ...articleImgBlocks, ...articleTextBlocks].sort((a, b) => Number(a.id) - Number(b.id))
 
 

@@ -5,11 +5,27 @@ import { ArticleCodeDto } from '../dto/article-code.dto';
 
 @Injectable()
 export class ArticleCodeService {
-    constructor(@InjectModel(ArticleCode) private articleCodeRepository: typeof ArticleCode) {}
+    constructor(@InjectModel(ArticleCode) private articleCodeRepository: typeof ArticleCode) { }
 
 
     async createCode(dto: ArticleCodeDto) {
-        const code = await this.articleCodeRepository.create(dto)
+        const payload = { blockId: dto.id, type: dto.type, code: dto.code, articleId: dto.articleId }
+        const code = await this.articleCodeRepository.create(payload)
         return code
+    }
+
+    async getCode(articleId: number) {
+        const codeBlocks = await this.articleCodeRepository.findAll({ where: { articleId } })
+
+        const resultBlocks = codeBlocks.map((block) => {
+            return {
+                id: block.dataValues.blockId,
+                type: 'IMAGE',
+                code: block.dataValues.code
+            }
+        })
+
+        return resultBlocks
+
     }
 }

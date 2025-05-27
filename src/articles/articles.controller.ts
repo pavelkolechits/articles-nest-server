@@ -20,6 +20,7 @@ export class ArticlesController {
     @Get('/:id')
 
     getArticle(@Param('id') id: number) {
+        console.log(id)
         return this.articleService.getArticle(id)
     }
 }
