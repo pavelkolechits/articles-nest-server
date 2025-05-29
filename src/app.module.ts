@@ -21,6 +21,7 @@ import { ArticlesModule } from './articles/articles.module';
 import { ArticleTextModule } from './articles/article-text/article-text.module';
 import { ArticleImgModule } from './articles/article-img/article-img.module';
 import { ArticleCodeModule } from './articles/article-code/article-code.module';
+import { CommentsModule } from './comments/comments.module';
 
 
 
@@ -59,7 +60,8 @@ import { ArticleCodeModule } from './articles/article-code/article-code.module';
         ArticlesModule,
         ArticleTextModule,
         ArticleImgModule,
-        ArticleCodeModule
+        ArticleCodeModule,
+        CommentsModule
 
     ],
 })

@@ -12,7 +12,7 @@ interface ProfileCreationAttrs {
 @Table({ tableName: 'profiles' })
 export class Profile extends Model<Profile, ProfileCreationAttrs> {
 
-    @Column({ type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true })
+    @Column({ type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: false })
     declare id: number;
 
     @Column({ type: DataType.STRING, unique: true, allowNull: false })
@@ -40,6 +40,7 @@ export class Profile extends Model<Profile, ProfileCreationAttrs> {
     avatar: string;
 
     @ForeignKey(() => User)
+    @Column({ type: DataType.INTEGER, primaryKey: true })
     userId: number
 
     @BelongsTo(() => User)
