@@ -8,6 +8,7 @@ import { ArticleCodeDto } from './dto/article-code.dto';
 import { ArticleTextService } from './article-text/article-text.service';
 import { ArticleImgService } from './article-img/article-img.service';
 import { ArticleCodeService } from './article-code/article-code.service';
+import { Op } from 'sequelize';
 
 
 @Injectable()
@@ -62,13 +63,29 @@ export class ArticlesService {
         }
     }
 
-    async getArticles() {
-        const articles = await this.articleRepository.findAll({
-            attributes: {
-                exclude: ['blocks']
-            }
-        })
-        return articles
+    async getArticles(page: number, limit: number, sort: string, order: string, search: string) {
+
+
+        const offset = (page - 1) * limit;
+
+          const where = search 
+        ? { title: { [Op.iLike]: `%${search}%` } } 
+        : {};
+
+
+    const { rows, count } = await this.articleRepository.findAndCountAll({
+        where,
+        attributes: { exclude: ['blocks'] },
+        limit: limit,   
+        offset: offset,
+        order: [[sort, order]] 
+    });
+
+    
+    const hasMore = count > Number(page) * Number(limit);
+
+    
+        return {articles: rows, hasMore}
     }
 
     async getArticle(articleId: number) {

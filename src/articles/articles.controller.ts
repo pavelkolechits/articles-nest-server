@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ArticleDto } from './dto/article.dto';
 import { ArticlesService } from './articles.service';
 
@@ -13,14 +13,21 @@ export class ArticlesController {
     }
 
     @Get()
-    getArticles() {
-        return this.articleService.getArticles()
+    getArticles(
+        @Query('page') page: number , 
+        @Query('limit') limit: number,
+        @Query('sort') sort: string,
+        @Query('order') order: string,
+        @Query('q') search: string,
+        
+    ){
+        console.log(page, limit, sort, order)
+        return this.articleService.getArticles(page, limit, sort, order, search)
     }
 
     @Get('/:id')
 
     getArticle(@Param('id') id: number) {
-        console.log(id)
         return this.articleService.getArticle(id)
     }
 }
